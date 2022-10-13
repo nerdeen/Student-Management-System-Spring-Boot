@@ -1,5 +1,8 @@
 package com.example.democlassapp.entity;
 
+import com.example.democlassapp.dto.AssignmentDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,7 +24,7 @@ public class Assignment {
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     private Course course;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "assignment",cascade = CascadeType.ALL)
     private List<AssignmentSubmission> assignmentSubmissionList;
     @Column(name = "due_date")
@@ -31,10 +34,19 @@ public class Assignment {
 
     }
 
-    public Assignment(String description,Course course,Date dueDate){
+    public Assignment(String description,Course course,Date dueDate,List<AssignmentSubmission> assignmentSubmission){
         this.description=description;
         this.course=course;
         this.dueDate=dueDate;
+        this.assignmentSubmissionList=assignmentSubmission;
+    }
+
+    public Assignment(AssignmentDTO assignmentDTO){
+        this.id=assignmentDTO.getId();
+        this.description=assignmentDTO.getDescription();
+        this.dueDate=assignmentDTO.getDueDate();
+        this.course=null;
+
     }
 
     public int getId() {
@@ -57,10 +69,6 @@ public class Assignment {
         return course;
     }
 
-    public void setCourseId(Course course) {
-        this.course = course;
-    }
-
     public Date getDueDate() {
         return dueDate;
     }
@@ -80,6 +88,7 @@ public class Assignment {
     public void setAssignmentSubmissionList(List<AssignmentSubmission> assignmentSubmissionList) {
         this.assignmentSubmissionList = assignmentSubmissionList;
     }
+
 
     @Override
     public String toString() {

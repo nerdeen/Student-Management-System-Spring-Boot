@@ -1,5 +1,7 @@
 package com.example.democlassapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -22,6 +24,7 @@ public class Teacher {
     @Column(name = "mobile_number")
     private String mobileNumber;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "teacher",cascade = CascadeType.ALL)
     private List<Course> courses;
 

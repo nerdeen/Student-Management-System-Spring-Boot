@@ -1,10 +1,12 @@
 package com.example.democlassapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.engine.internal.Cascade;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Entity
 @Table(name = "course")
@@ -23,9 +25,10 @@ public class Course {
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH})
     private Teacher teacher;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
     private List<Assignment> assignments;
-
+    @JsonIgnore
     @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinTable(
             name="course_student",
@@ -33,7 +36,7 @@ public class Course {
             inverseJoinColumns = @JoinColumn(name="student_id")
     )
     private List<Student> students;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
     private List<CourseAttendance> courseAttendances;
 

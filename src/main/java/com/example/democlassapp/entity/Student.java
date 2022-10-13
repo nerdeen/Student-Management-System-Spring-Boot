@@ -43,9 +43,10 @@ public class Student {
     )
     private List<Course>courses;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
     private List<CourseAttendance> courseAttendances;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
     private List<AssignmentSubmission> assignmentSubmissions;
 
