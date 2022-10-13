@@ -1,5 +1,7 @@
 package com.example.democlassapp.entity;
 
+import com.example.democlassapp.dto.CourseAttendanceDTO;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -33,6 +35,11 @@ public class CourseAttendance {
         this.student=student;
         this.attendanceDate=attendanceDate;
         this.status=status;
+    }
+    public CourseAttendance(CourseAttendanceDTO courseAttendanceDTO) {
+        this.id = courseAttendanceDTO.getId();
+        this.attendanceDate = courseAttendanceDTO.getAttendanceDate();
+        this.status = courseAttendanceDTO.getStatus();
     }
 
     public int getId() {

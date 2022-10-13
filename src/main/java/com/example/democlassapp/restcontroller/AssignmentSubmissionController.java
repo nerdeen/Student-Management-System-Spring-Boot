@@ -1,7 +1,7 @@
 package com.example.democlassapp.restcontroller;
 
-import com.example.democlassapp.entity.AssignmentSubmission;
-import com.example.democlassapp.service.AssignmentSubmissionService;
+import com.example.democlassapp.dto.AssignmentSubmissionDTO;
+import com.example.democlassapp.facade.AssignmentSubmissionFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,50 +9,39 @@ import java.util.List;
 
 @RestController
 public class AssignmentSubmissionController {
-    private AssignmentSubmissionService assignmentSubmissionService;
+    private AssignmentSubmissionFacade assignmentSubmissionFacade;
     @Autowired
-    public AssignmentSubmissionController(AssignmentSubmissionService assignmentSubmissionService){
-        this.assignmentSubmissionService=assignmentSubmissionService;
+    public AssignmentSubmissionController(AssignmentSubmissionFacade assignmentSubmissionFacade){
+        this.assignmentSubmissionFacade=assignmentSubmissionFacade;
     }
 
     @GetMapping("/assignmentSubmissions")
-    public List<AssignmentSubmission> findAll(){
-        return assignmentSubmissionService.findAll();
+    public List<AssignmentSubmissionDTO> findAll(){
+        return assignmentSubmissionFacade.findAll();
     }
 
     @GetMapping("assignmentSubmissions/{assignmentSubmissionId}")
-    public AssignmentSubmission findById(@PathVariable int assignmentSubmissionId){
-        AssignmentSubmission assignmentSubmission=assignmentSubmissionService.findById(assignmentSubmissionId);
-        if(assignmentSubmission==null){
-            throw new RuntimeException("assignmentSubmission id not found"+assignmentSubmissionId);
-        }
-        return assignmentSubmission;
+    public AssignmentSubmissionDTO findById(@PathVariable int assignmentSubmissionId){
+        return assignmentSubmissionFacade.findById(assignmentSubmissionId);
 
     }
     @PostMapping("/assignmentSubmissions")
-    public AssignmentSubmission addAssignmentSubmission(@RequestBody AssignmentSubmission assignmentSubmission){
-        // just in case they pass an id in json ... set id to 0
-        // this is to force a save of new employee .... instead of update
-        assignmentSubmission.setId(0);
-        assignmentSubmissionService.save(assignmentSubmission);
-        return assignmentSubmission;
+    public AssignmentSubmissionDTO addAssignmentSubmission(@RequestBody AssignmentSubmissionDTO assignmentSubmissionDTO){
+        assignmentSubmissionFacade.add(assignmentSubmissionDTO);
+        return assignmentSubmissionDTO;
     }
 
     @PutMapping("/assignmentSubmissions")
-    public AssignmentSubmission updateAssignmentSubmission(@RequestBody AssignmentSubmission assignmentSubmission){
+    public AssignmentSubmissionDTO updateAssignmentSubmission(@RequestBody AssignmentSubmissionDTO assignmentSubmissionDTO){
         // just in case they pass an id in json ... set id to 0
         // this is to force a save of new employee .... instead of update
-        assignmentSubmissionService.save(assignmentSubmission);
-        return assignmentSubmission;
+        assignmentSubmissionFacade.update(assignmentSubmissionDTO);
+        return assignmentSubmissionDTO;
     }
 
     @DeleteMapping("/assignmentSubmissions/{assignmentSubmissionId}")
     public String deleteAssignmentSubmission(@PathVariable int assignmentSubmissionId){
-        AssignmentSubmission assignmentSubmission=assignmentSubmissionService.findById(assignmentSubmissionId);
-        if(assignmentSubmission==null){
-            throw new RuntimeException("this assignmentSubmission isn't in our system");
-        }
-        assignmentSubmissionService.deleteById(assignmentSubmissionId);
+        assignmentSubmissionFacade.deleteById(assignmentSubmissionId);
         return "the assignmentSubmission was deleted successfully! "+assignmentSubmissionId;
     }
 }

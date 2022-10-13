@@ -1,5 +1,6 @@
 package com.example.democlassapp.entity;
 
+import com.example.democlassapp.dto.CourseDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.engine.internal.Cascade;
 
@@ -48,6 +49,10 @@ public class Course {
         this.name=name;
         this.teacher=teacher;
 
+    }
+    public Course(CourseDTO courseDTO){
+        this.id=courseDTO.getId();
+        this.name=courseDTO.getName();
     }
 
     public int getId() {

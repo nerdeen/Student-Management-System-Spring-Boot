@@ -1,5 +1,7 @@
 package com.example.democlassapp.entity;
 
+import com.example.democlassapp.dto.AssignmentSubmissionDTO;
+
 import javax.persistence.*;
 import java.util.Date;
 @Entity
@@ -35,6 +37,15 @@ public class AssignmentSubmission {
         this.student=student;
         this.assignment=assignment;
         this.assignmentContentSubmitted=assignmentContentSubmitted;
+    }
+    public AssignmentSubmission(AssignmentSubmissionDTO assignmentSubmissionDTO){
+        this.id=assignmentSubmissionDTO.getId();
+        this.submissionDate=assignmentSubmissionDTO.getSubmissionDate();
+        this.assignmentMarks=assignmentSubmissionDTO.getAssignmentMarks();
+        this.assignmentContentSubmitted=assignmentSubmissionDTO.getAssignmentContentSubmitted();
+        this.assignment=null;
+        this.student=null;
+
     }
 
     public int getId() {
